@@ -3,7 +3,7 @@ from django.db import models
 
 class Post(models.Model):
     title = models.CharField(max_length=150)
-    resume = models.CharField(max_length=250)
+    resume = models.TextField()
     body = models.TextField()
     image = models.FileField()
     creation_date = models.DateTimeField(auto_now_add=True)
