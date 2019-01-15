@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Detail - {{ post.title}}</title>
+</head>
+<body>
+
+    <h1>{{ post.title }}</h1>
+    <img src=" {{ post.image.url}}" alt="{{ post.title}}" title="{{ post.title}}" width="900">
+    <p><strong>{{ post.resume }}</strong></p>
+    <p>{{ post.body }}</p>
+    <br>
+    <strong>Pub date: {{ post.pub_date | date:"d/m/Y H:i"}}</strong>
+</body>
+</html>
