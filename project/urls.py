@@ -21,9 +21,12 @@ from django.urls import path
 from django.conf import settings
 
 from posts.views import home, post_detail
+from users.views import login
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('posts/<int:post_pk>', post_detail, name='post_detail'),
+
+    path('login', login, name='login'),
     path('', home, name='home'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

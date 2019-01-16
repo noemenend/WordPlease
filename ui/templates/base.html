@@ -8,7 +8,7 @@
 {%  load static %}
 
 
-    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap csrc="{{post.image.url}}" alt="{{ post.name}}" title="{{ post.name }}"ore CSS -->
     <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
@@ -42,7 +42,7 @@
           <ul class="navbar-nav ml-auto">
                 {% if not user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Sign up</a>
@@ -62,10 +62,29 @@
 
       <div class="row">
 
+              {% if messages %}
+          <span>&nbsp;</span>
+          <div class="container-fluid">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <div class="alert alert-success alert-dismissible fade show popup-message" role="alert">
+                {% elif message.tags == 'error' %}
+                    <div class="alert alert-danger alert-dismissible fade show popup-message" role="alert">
+                {% endif %}
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+                          </div>
+        {% endif %}
+
 
 
         {% block "main_body" %} {% endblock %}
 
+        {% block "main_search" %}
         <div class="col-md-4">
 
           <!-- Search Widget -->
@@ -117,13 +136,14 @@
           </div>
 
         </div>
+          {% endblock %}
       </div>
 </div>
 
 
 
      <!-- Footer -->
-    <footer class="py-5 bg-dark">
+    <footer class="py-5 bg-dark fixed-bottom">
       <div class="container">
         <p class="m-0 text-center text-white"> WordPlease. All rights reserved &copy; {% now "Y" %}</p>
       </div>

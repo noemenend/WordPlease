@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'categories',
     'ui',
     'bootstrap4',
+    'users'
 ]
 
 MIDDLEWARE = [
