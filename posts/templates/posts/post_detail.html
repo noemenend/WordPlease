@@ -1,16 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Post Detail - {{ post.title}}</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-    <h1>{{ post.title }}</h1>
-    <img src=" {{ post.image.url}}" alt="{{ post.title}}" title="{{ post.title}}" width="900">
-    <p><strong>{{ post.resume }}</strong></p>
-    <p>{{ post.body }}</p>
-    <br>
-    <strong>Pub date: {{ post.pub_date | date:"d/m/Y H:i"}}</strong>
-</body>
-</html>
+
+{% block "main_body" %}
+
+ <!-- Post Content Column -->
+        <div class="col-lg-8">
+
+          <!-- Title -->
+          <h1 class="mt-4">{{ post.title}}</h1>
+
+          <!-- Author -->
+          <p class="lead">
+            by
+            <a href="#">{{ post.author.first_name}} {{ post.author.last_name}}</a>
+          </p>
+
+          <hr>
+
+          <!-- Date/Time -->
+          <p>Posted on {{ post.pub_date | date:"d/m/Y H:i"}}</p>
+
+          <hr>
+
+          <!-- Preview Image -->
+          <img class="img-fluid rounded" src="{{post.image.url}}" alt="{{ post.name}}" title="{{ post.name }}">
+
+          <hr>
+
+          <!-- Post Content -->
+          <p class="lead">{{ post.resume}}</p>
+
+          <p>{{ post.body}}</p>
+
+
+        </div>
+{% endblock %}
