@@ -15,21 +15,14 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
-
+from django.urls import path, include
 
 from django.conf import settings
 
-from posts.views import home, post_detail
-from users.views import login, logout
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('posts/<int:post_pk>', post_detail, name='post_detail'),
-
-    path('login', login, name='login'),
-    path('logout', logout, name='logout'),
-
-
-    path('', home, name='home'),
+    path('', include('users.urls')),
+    path('', include('posts.urls')),
+    path('', include('blogs.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

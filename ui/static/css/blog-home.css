@@ -1,15 +1,63 @@
-/*!
- * Start Bootstrap - Blog Home (https://startbootstrap.com/template-overviews/blog-home)
- * Copyright 2013-2017 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-blog-home/blob/master/LICENSE)
- */
+
 
 body {
   padding-top: 54px;
+}
+
+.fixed-bottom-wp {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1030;
+  padding-bottom:0.2em;
+  padding-top:0.2em;
+}
+
+.main-wrapper {
+  padding-bottom: 1em;
+}
+
+.pagetitle {
+    margin: 15px auto;
+    position: relative;
+    width: 100%;
+    font-size: 1.25rem;
+    font-weight: normal;
+    text-shadow: 1px 1px 1px gray;
+    color: floralwhite;
+    background-color:darkgrey;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 12px 10px 12px 17px;
+    box-shadow: 2px 2px 5px lightblue;
 }
 
 @media (min-width: 992px) {
   body {
     padding-top: 56px;
   }
+}
+.shadow {
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.shadow:hover {
+  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+.shadow-nohover {
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.box {
+  background: #f8d7da;
+  border-radius: 0.3rem;
+    padding-right: 2px;
+    padding-left: 2px;
+    padding-top: 1px;
+}
+
+.list-group-item-wp {
+    color: #383d41;
+    background-color: #f8d7da;
 }

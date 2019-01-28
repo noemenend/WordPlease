@@ -42,8 +42,10 @@ INSTALLED_APPS = [
     'blogs',
     'categories',
     'ui',
-    'bootstrap4',
-    'users'
+    'users',
+    'crispy_forms',
+    'bootstrap_datepicker_plus',
+    'bootstrap4'
 ]
 
 MIDDLEWARE = [
@@ -132,4 +134,7 @@ STATICFILES_DIRS = ( os.path.join(BASE_DIR, 'static'), )
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/mediauploads/'
+
+# Django Forms with Bootstrap4
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

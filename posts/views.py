@@ -1,30 +1,71 @@
-import datetime
+from datetime import datetime
 
-from django.http import HttpResponse
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.utils.decorators import method_decorator
+from django.views import View
+from django.views.generic import DetailView
 
+from categories.models import Category
+from posts.forms import PostForm
 from posts.models import Post
 
 
-def home(request):
-    # 1) Obtener los 10 últimos posts de la base de datos publicados
-    # ordenados de más reciente a más antiguo
-    last_posts_published = Post.objects.select_related('author').exclude(pub_date__year__lt=datetime.datetime.now().year).filter(
-        status=Post.PUBLISHED).order_by('-last_modification')
-    posts_list = last_posts_published[:10]
-    # 2) Pasar los posts a la plantilla
-    context = {'posts': posts_list}
-    return render(request, 'posts/home.html', context)
+class PostListView(View):
+
+    def get(self, request):
+        last_post_published = Post.objects.select_related('author') \
+            .prefetch_related('categories')\
+            .filter(status=Post.PUBLISHED) \
+            .order_by('-last_modification')
+
+        # See all categories.
+        category_list = Category.objects.all()
+
+        context = {
+            'posts': last_post_published,
+            'categories': category_list
+        }
+        return render(request, 'posts/post_list.html', context)
 
 
-def post_detail(request, post_pk):
-    # 1)Recupero el post indicado desde el modelo
-    try:
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'posts/post_detail.html'
 
-        post = Post.objects.select_related('author').get(pk=post_pk)
-    except Post.DoesNotExist:
-        return HttpResponse('Post not found', status=404)
 
-    # 1)Creamos el contexto para el post y lo pasamos a la plantilla
-    context = {'post': post}
-    return render(request, 'posts/post_detail.html', context)
+class NewPostView(View):
+
+    @method_decorator(login_required)
+    def get(self, request):
+        form = PostForm(user=request.user)
+        return render(request, 'posts/new_post.html', {'form': form})
+
+    @method_decorator(login_required)
+    def post(self, request):
+        new_post = Post(author=request.user)
+        form = PostForm(request.POST, request.FILES, instance=new_post, user=request.user)
+        if form.is_valid():
+            new_post = form.save()
+            messages.success(request, 'Post {0} created successfully!'.format(new_post.title))
+            form = PostForm(user=request.user)
+        return render(request, 'posts/new_post.html', {'form': form})
+
+
+class PostListByCategoryView(View):
+
+    def get(self, request, pk):
+        last_post_published_byCat = Post.objects.prefetch_related('categories')\
+            .select_related('author') \
+            .filter(status=Post.PUBLISHED) \
+            .order_by('-last_modification').filter(categories=pk)
+
+        # See all categories.
+        category_list = Category.objects.all()
+
+        context = {
+            'posts': last_post_published_byCat,
+            'categories': category_list
+        }
+        return render(request, 'posts/post_list.html', context)

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+{{ form.media }}
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block "head_title" %} New Post {% endblock %}
+
+
+
+{% block "main_body" %}
+
+     <div class="container">
+
+                <div class="pagetitle"><h4>New Post</h4></div>
+
+
+      </div>
+
+<div class="col-md-8">
+
+<form method="post" novalidate enctype="multipart/form-data">
+    {% csrf_token %}
+     {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Create post</button>
+</form>
+    <span>&nbsp;</span>
+    <span>&nbsp;</span>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block "main_search" %}&nbsp;{% endblock %}

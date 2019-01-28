@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block "head_title" %} Login {% endblock %}
+
+
+{% block "main_body" %}
+
+      <div class="container">
+
+          <div class="pagetitle"><h4>Sign Up</h4></div>
+
+
+      </div>
+
+<div class="col-md-8">
+
+
+<form method="post" novalidate>
+    {% csrf_token %}
+     {{form|crispy}}
+
+    <div class ="row">
+    <button type="submit" class="btn btn-primary">Sign up</button>
+    </div>
+    <span>&nbsp;</span>
+
+</form>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block "main_search" %}&nbsp;{% endblock %}
