@@ -140,3 +140,6 @@ MEDIA_URL = '/mediauploads/'
 # Django Forms with Bootstrap4
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+# Pagination for posts
+ITEMS_PER_PAGE = 6
+

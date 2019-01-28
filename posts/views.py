@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -10,6 +11,7 @@ from django.views.generic import DetailView
 from categories.models import Category
 from posts.forms import PostForm
 from posts.models import Post
+from project.settings import ITEMS_PER_PAGE
 
 
 class PostListView(View):
@@ -23,8 +25,13 @@ class PostListView(View):
         # See all categories.
         category_list = Category.objects.all()
 
+        #pagination
+        paginator = Paginator(last_post_published, ITEMS_PER_PAGE)
+        page = request.GET.get('page')
+        posts = paginator.get_page(page)
+
         context = {
-            'posts': last_post_published,
+            'posts': posts,
             'categories': category_list
         }
         return render(request, 'posts/post_list.html', context)
@@ -64,8 +71,13 @@ class PostListByCategoryView(View):
         # See all categories.
         category_list = Category.objects.all()
 
+        # pagination
+        paginator = Paginator(last_post_published_byCat, ITEMS_PER_PAGE)
+        page = request.GET.get('page')
+        posts = paginator.get_page(page)
+
         context = {
-            'posts': last_post_published_byCat,
+            'posts': posts,
             'categories': category_list
         }
         return render(request, 'posts/post_list.html', context)
