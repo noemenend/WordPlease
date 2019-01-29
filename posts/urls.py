@@ -15,6 +15,7 @@ urlpatterns = [
     path('', PostListView.as_view(), name='home'),
     path('postsbyCat/<int:pk>', PostListByCategoryView.as_view(), name='categoriesPost'),
 
+
     # API
     path('api/1.0/', include(router.urls)),
 ]

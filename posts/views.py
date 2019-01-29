@@ -3,7 +3,8 @@ from datetime import datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.db.models import Q
+from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import DetailView
@@ -17,10 +18,27 @@ from project.settings import ITEMS_PER_PAGE
 class PostListView(View):
 
     def get(self, request):
-        last_post_published = Post.objects.select_related('author') \
-            .prefetch_related('categories')\
-            .filter(status=Post.PUBLISHED) \
-            .order_by('-last_modification')
+        query = request.GET.get('q', '')
+        qset = ()
+        if query:
+            qset = (
+                    Q(title__icontains=query) |
+                    Q(author__first_name__icontains=query) |
+                    Q(author__last_name__icontains=query) |
+                    Q(resume__icontains=query) |
+                    Q(body__icontains=query)
+            )
+
+            last_post_published = Post.objects.select_related('author') \
+                .prefetch_related('categories') \
+                .filter(qset).distinct() \
+                .filter(status=Post.PUBLISHED) \
+                .order_by('-last_modification')
+        else:
+            last_post_published = Post.objects.select_related('author') \
+                .prefetch_related('categories') \
+                .filter(status=Post.PUBLISHED) \
+                .order_by('-last_modification')
 
         # See all categories.
         category_list = Category.objects.all()
@@ -37,9 +55,22 @@ class PostListView(View):
         return render(request, 'posts/post_list.html', context)
 
 
-class PostDetailView(DetailView):
-    model = Post
-    template_name = 'posts/post_detail.html'
+class PostDetailView(View):
+
+    def get(self, request, pk):
+
+        post = get_object_or_404(Post, pk=pk)
+
+        # See all categories.
+        category_list = Category.objects.all()
+
+        context = {
+            'post': post,
+            'categories': category_list
+        }
+
+        template_name = 'posts/post_detail.html'
+        return render(request, template_name, context)
 
 
 class NewPostView(View):
@@ -63,10 +94,27 @@ class NewPostView(View):
 class PostListByCategoryView(View):
 
     def get(self, request, pk):
-        last_post_published_byCat = Post.objects.prefetch_related('categories')\
-            .select_related('author') \
-            .filter(status=Post.PUBLISHED) \
-            .order_by('-last_modification').filter(categories=pk)
+        query = request.GET.get('q', '')
+        qset = ()
+        if query:
+            qset = (
+                    Q(title__icontains=query) |
+                    Q(author__first_name__icontains=query) |
+                    Q(author__last_name__icontains=query) |
+                    Q(resume__icontains=query) |
+                    Q(body__icontains=query)
+            )
+
+            last_post_published_byCat = Post.objects.prefetch_related('categories')\
+                .select_related('author') \
+                .filter(qset).distinct() \
+                .filter(status=Post.PUBLISHED) \
+                .order_by('-last_modification').filter(categories=pk)
+        else:
+            last_post_published_byCat = Post.objects.prefetch_related('categories') \
+                .select_related('author') \
+                .filter(status=Post.PUBLISHED) \
+                .order_by('-last_modification').filter(categories=pk)
 
         # See all categories.
         category_list = Category.objects.all()
