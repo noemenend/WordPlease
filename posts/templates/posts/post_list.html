@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+
+{% block "main_body" %}
+
+       <!-- Blog Entries Column -->
+        <div class="col-md-8">
+          <h1 class="my-4">Blog Plattform
+            <small>Write & Share your Knowledge</small>
+          </h1>
+    {% if posts|length > 0 %}
+        {% for post in posts %}
+             <!-- Blog Post -->
+          <div class="card mb-4">
+              <img class="card-img-top" src="{{post.image.url}}" alt="{{ post.name}}" title="{{ post.name }}">
+            <div class="card-body">
+                  {% for category in post.categories.all %}
+
+                    <div class="col-md-auto">
+                        <a class="box shadow" href="{% url 'categoriesPost' category.pk%}">{{category.name}}</a>
+                    </div>
+                   {% endfor %}
+                  <h2 class="card-title">{{ post.title }}</h2>
+                  <p class="card-text">{{ post.resume}}</p>
+                  <a href="{% url 'post_detail' post.pk %}" class="btn btn-primary">Read More &rarr;</a>
+            </div>
+            <div class="card-footer text-muted">
+              Posted on {{ post.pub_date | date:"d/m/Y H:i"}}
+                {% if post.author.first_name %}
+                by
+                <a href="#">{{ post.author.first_name }} {{ post.author.last_name}}</a>
+                {% endif %}
+
+            </div>
+          </div>
+        {% endfor %}
+              {% include "paginate.html" with items=posts %}
+    {% else %}
+        <div class="card mb-4 box shadow">
+            <div class="card-body">
+                <h5>There is no post published yet ...</h5>
+            </div>
+        </div>
+    {% endif %}
+        </div>
+{% endblock %}
+
+{% block categories %}
+ <div class="card my-4">
+     <h5 class="card-header">Categories</h5>
+ <div class="card-body">
+                  <div class="container">
+                    <div class="row justify-content-md-start">
+                        {% for category in categories %}
+                        <div class="col-md-auto">
+                            <a class="box shadow" href="{% url 'categoriesPost' category.pk%}">{{category.name}}</a>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                  </div>
+
+ </div>
+ </div>
+
+{% endblock %}
+

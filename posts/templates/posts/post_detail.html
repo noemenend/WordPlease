@@ -35,3 +35,32 @@
 
         </div>
 {% endblock %}
+
+            {% block "main_search" %}
+            <div class="col-md-4">
+                {% block "search" %}
+                {% endblock %}
+
+                {% block categories %}
+                <!-- Categories Widget -->
+              <div class="card my-4">
+     <h5 class="card-header">Categories</h5>
+ <div class="card-body">
+                  <div class="container">
+                    <div class="row justify-content-md-start">
+                        {% for category in categories %}
+                        <div class="col-md-auto">
+                            <a class="box shadow" href="{% url 'categoriesPost' category.pk%}">{{category.name}}</a>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                  </div>
+
+ </div>
+ </div>
+
+                {% endblock %}
+
+            </div>
+            {% endblock %}
