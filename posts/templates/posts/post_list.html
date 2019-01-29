@@ -14,12 +14,14 @@
           <div class="card mb-4">
               <img class="card-img-top" src="{{post.image.url}}" alt="{{ post.name}}" title="{{ post.name }}">
             <div class="card-body">
+                 <div class="col-md-auto">
                   {% for category in post.categories.all %}
 
-                    <div class="col-md-auto">
+
                         <a class="box shadow" href="{% url 'categoriesPost' category.pk%}">{{category.name}}</a>
-                    </div>
+
                    {% endfor %}
+                      </div>
                   <h2 class="card-title">{{ post.title }}</h2>
                   <p class="card-text">{{ post.resume}}</p>
                   <a href="{% url 'post_detail' post.pk %}" class="btn btn-primary">Read More &rarr;</a>
