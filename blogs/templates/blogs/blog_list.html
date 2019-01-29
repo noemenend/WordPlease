@@ -20,7 +20,13 @@
             <a href="{% url 'blog' blog.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center list-group-item-wp">
                 <h5 class="list-group-item-heading">{{ blog.name}}</h5>
 
-                <p class="list-group-item-text">{{blog.author.first_name}} {{blog.author.last_name}} - <strong>{{ blog.author.username}} </strong></p>
+                <p class="list-group-item-text">
+                    {% if blog.author.first_name %}
+                    {{blog.author.first_name}} {{blog.author.last_name}} - <strong>{{ blog.author.username}} </strong>
+                    {% else %}
+                    No author name - <strong>{{ blog.author.username}} </strong>
+                    {% endif %}
+                </p>
                 <p class="list-group-item-text">{{ blog.description}}</p>
             </a>
 
