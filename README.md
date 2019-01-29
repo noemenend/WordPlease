@@ -57,14 +57,14 @@ URLS:
 
 | URL | Description | Notes |
 | ------- | --- | --- |
-| ```/``` | Home page. List of latest posts, paginated | Shows only published posts (pub date <= current date), ordered by pub date descending |
+| ```/``` | Home page. List of latest posts, paginated (6 items per page) | Shows only  recent published posts (pub date <= current date), ordered by last modification date descending. The page include a filter by category |
 | ```/login``` | Login | |
 | ```/signup``` | Register a new user | |
 | ```/logout``` | Logout | |
-| ```/users``` | List of Users, paginated | |
-| ```/users/<username>``` | List of blogs belonging to the user, paginated | |
-| ```/blogs``` | List of all blogs, paginated | |
-| ```/blogs/<blog_name>``` | List of posts in that blog, order by pub date descending | Shows all posts if logged user is the blog author or a super user, otherwise only published posts. The page includes a filter by category |
+| ```/users``` | List of Users, paginated (15 items per page) | |
+| ```/users/<username>``` | List of blogs belonging to the user selected, paginated  (15 items per page) | |
+| ```/blogs``` | List of all blogs, paginated (15 items per page)  | |
+| ```/blogs/<blog_name>``` | List of posts in the blog selected, order by pub date descending | Shows all posts (published/not published) if logged user is the blog author or a super user, otherwise only published posts. The page includes a filter by category |
 | ```/blogs/<blog_name>/<post_id>``` | Shows post detail | |
 
 ---

@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -7,7 +5,7 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import DetailView
+from django.utils import timezone
 
 from categories.models import Category
 from posts.forms import PostForm
@@ -33,11 +31,13 @@ class PostListView(View):
                 .prefetch_related('categories') \
                 .filter(qset).distinct() \
                 .filter(status=Post.PUBLISHED) \
+                .filter(pub_date__lte=timezone.now()) \
                 .order_by('-last_modification')
         else:
             last_post_published = Post.objects.select_related('author') \
                 .prefetch_related('categories') \
                 .filter(status=Post.PUBLISHED) \
+                .filter(pub_date__lte=timezone.now()) \
                 .order_by('-last_modification')
 
         # See all categories.
