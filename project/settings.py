@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'rest_framework',
     'django_filters',
+    'imageUpload'
 ]
 
 MIDDLEWARE = [
