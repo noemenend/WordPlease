@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from blogs.models import Blog
+from project.settings import ITEMS_PER_PAGE_LARGE
 from users.forms import SignUpForm, LoginForm
 
 
@@ -73,7 +74,11 @@ class UsersListView(View):
 
     def get(self, request):
 
-        users = User.objects.all().order_by(Lower('username')).annotate(Count('blog'))
+        usersList = User.objects.all().order_by(Lower('username')).annotate(Count('blog'))
 
+        # pagination
+        paginator = Paginator(usersList, ITEMS_PER_PAGE_LARGE)
+        page = request.GET.get('page')
+        users = paginator.get_page(page)
 
         return render(request, 'users/usersList.html', {'users': users})

@@ -2,6 +2,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 
 from django.db.models.functions import Lower
 from django.shortcuts import render, get_object_or_404
@@ -14,6 +15,8 @@ from categories.models import Category
 from posts.models import Post
 from datetime import datetime
 
+from project.settings import ITEMS_PER_PAGE_LARGE, ITEMS_PER_PAGE
+
 
 class BlogListView(View):
 
@@ -21,9 +24,13 @@ class BlogListView(View):
 
         blog_list = Blog.objects.all().select_related('author').order_by(Lower('name'))
 
+        # pagination
+        paginator = Paginator(blog_list, ITEMS_PER_PAGE_LARGE)
+        page = request.GET.get('page')
+        blogs = paginator.get_page(page)
 
 
-        return render(request, 'blogs/blog_list.html', {'blogs': blog_list, 'title': 'Blogs'})
+        return render(request, 'blogs/blog_list.html', {'blogs': blogs, 'title': 'Blogs'})
 
 
 class UserBlogsView(View):
@@ -33,8 +40,13 @@ class UserBlogsView(View):
         user = get_object_or_404(User, username=username)
         blog_list = Blog.objects.filter(author=user).select_related('author').order_by(Lower('name'))
 
+        # pagination
+        paginator = Paginator(blog_list, ITEMS_PER_PAGE_LARGE)
+        page = request.GET.get('page')
+        blogs = paginator.get_page(page)
+
         return render(request, 'blogs/blog_list.html', {
-            'blogs': blog_list,
+            'blogs': blogs,
             'title': 'Blog List - {0} {1}'.format(user.first_name, user.last_name)
         })
 
@@ -63,9 +75,13 @@ class BlogView(View):
                 .filter(status=Post.PUBLISHED) \
                 .order_by('-last_modification')
 
+        # pagination
+        paginator = Paginator(posts_list, ITEMS_PER_PAGE)
+        page = request.GET.get('page')
+        posts = paginator.get_page(page)
 
         context = {
-            'posts': posts_list,
+            'posts': posts,
             'categories':   category_list,
             'title': '{0}'.format(blog.name),
 

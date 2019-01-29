@@ -143,4 +143,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Pagination for posts
 ITEMS_PER_PAGE = 6
+ITEMS_PER_PAGE_LARGE = 15
 

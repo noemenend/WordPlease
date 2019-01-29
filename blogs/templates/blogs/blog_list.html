@@ -26,11 +26,12 @@
 
 
             {% endfor %}
+                {% include "paginate.html" with items=blogs %}
             </div>
         {% else %}
              <div class="box shadow">
                 <div class="card-body">
-                    <h5>There is no post published yet ...</h5>
+                    <h5>There is no blogs created yet ...</h5>
                 </div>
              </div>
         {% endif %}
