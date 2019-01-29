@@ -64,8 +64,9 @@ URLS:
 | ```/users``` | List of Users, paginated (15 items per page) | |
 | ```/users/<username>``` | List of blogs belonging to the user selected, paginated  (15 items per page) | |
 | ```/blogs``` | List of all blogs, paginated (15 items per page)  | |
-| ```/blogs/<blog_name>``` | List of posts in the blog selected, order by pub date descending | Shows all posts (published/not published) if logged user is the blog author or a super user, otherwise only published posts. The page includes a filter by category |
+| ```/blogs/<blog_name>``` | List of posts in the blog selected, order by last modification date descending | Shows all posts (published/not published) if logged user is the blog author or a super user, otherwise only published posts. The page includes a filter by category |
 | ```/blogs/<blog_name>/<post_id>``` | Shows post detail | |
+| ```/postsbyCat/<category_id>``` | Shows all posts ordered by last modification date descending that belongs to this category |  |
 
 ---
 
