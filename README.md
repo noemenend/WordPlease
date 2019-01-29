@@ -14,16 +14,21 @@ following commands:
 
 ###### 1) Clone repository
 ```shell
-https://github.com/noemenend/WordPlease.git
+git clone https://github.com/noemenend/WordPlease.git
 cd WordPlease
 ```
 ###### 2) Setup and activate the python virtual env
 
+###### 2.1) On Linux
 ```shell
 virtualenv env -p python3
 source env/bin/activate
 ```
-
+###### 2.2) On Windows
+```shell
+python -m venv env
+env\Scripts\activate.bat
+```
 ###### 3) Install the modules required:
 
 ```shell
